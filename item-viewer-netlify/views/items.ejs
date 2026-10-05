@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>รายการไอเทม</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="/items">Item Database</a>
+      <div class="d-flex align-items-center text-white">
+        <span class="me-3">ผู้ใช้งาน: <strong><%= user.username %></strong> (<%= user.role %>)</span>
+        <% if (user.role === 'admin') { %>
+          <a href="/admin/upload" class="btn btn-outline-info btn-sm me-2">อัปโหลด SQL</a>
+          <a href="/admin/users" class="btn btn-outline-warning btn-sm me-2">จัดการผู้ใช้</a>
+        <% } %>
+        <a href="/logout" class="btn btn-outline-danger btn-sm">ออกจากระบบ</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="row mb-3">
+      <div class="col-md-6 offset-md-3">
+        <form method="GET" action="/items" class="d-flex">
+          <input type="text" name="search" class="form-control me-2" placeholder="พิมพ์ชื่อไอเทม หรือ Label..." value="<%= search %>">
+          <button type="submit" class="btn btn-primary">ค้นหา</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <table class="table table-striped table-hover mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Name (ID ไอเทม)</th>
+              <th>Label (ชื่อแสดงผล)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (items.length === 0) { %>
+              <tr><td colspan="3" class="text-center text-muted">ไม่พบข้อมูลไอเทม</td></tr>
+            <% } else { %>
+              <% items.forEach((item, index) => { %>
+                <tr>
+                  <td><%= index + 1 %></td>
+                  <td><code><%= item.name %></code></td>
+                  <td><%= item.label %></td>
+                </tr>
+              <% }); %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
